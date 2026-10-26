@@ -1,5 +1,7 @@
 # dsh-compact-panel-nav
 
+[![npm](https://img.shields.io/npm/v/dsh-compact-panel-nav.svg)](https://www.npmjs.com/package/dsh-compact-panel-nav) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A DeepSeek Harness Web UI plugin that compacts the top of the sidebar: **Plugins / Automations / More** collapse from three stacked rows into one, and **New Session** leaves its own full-width row to become an icon at the right end of the brand row. Together that returns about **130px** to the workspace list.
 
 压缩侧边栏顶部的 DeepSeek Harness 客户端插件：「插件 / 自动化任务 / 更多」三行合并成一行，「新会话」从整行按钮收成图标放到品牌行最右侧 —— 一共给下面的工作区列表腾出约 130px 高度。
@@ -40,9 +42,17 @@ The icon-only look — hiding the label and the inline `⌘N` hint, plus the hov
 
 ## Install / 安装
 
-This is a profile bundle: a package whose `package.json` declares `dsh.bundle.patch`, with a `./client` module for the browser half.
+This is a profile bundle: a package whose `package.json` declares `dsh.bundle.patch`, with a `./client` module for the browser half. It is published on npm as [`dsh-compact-panel-nav`](https://www.npmjs.com/package/dsh-compact-panel-nav), so there are two routes.
 
-1. Clone this repository somewhere stable (the profile links the directory — moving or deleting it breaks the plugin).
+**From npm (no clone).** Install the published package into the current Harness profile — the plugin manager's target is the npm spec:
+
+```
+plugin_manager  action=install_bundle  target=dsh-compact-panel-nav
+```
+
+**From this repository (the route verified here).**
+
+1. Clone it somewhere stable (the profile links the directory — moving or deleting it breaks the plugin).
 
    ```bash
    git clone https://github.com/dyguests/dsh-compact-panel-nav.git
@@ -58,7 +68,12 @@ This is a profile bundle: a package whose `package.json` declares `dsh.bundle.pa
 
 3. Check **Settings → Plugins** for the bundle — title *Compact Sidebar Nav* / 侧边栏导航压缩. It applies immediately; if the sidebar does not change, reload the page once (`Cmd+R`).
 
-这是一个 profile bundle（`package.json` 里声明 `dsh.bundle.patch`，浏览器侧由 `./client` 模块提供）。clone 到固定位置后用插件管理器以「目录」形式安装即可；profile 是通过 link 引用这个目录的，别删它。装完即时生效，不生效就刷新一次页面。
+这是一个 profile bundle（`package.json` 里声明 `dsh.bundle.patch`，浏览器侧由 `./client` 模块提供），已发布到 npm：[`dsh-compact-panel-nav`](https://www.npmjs.com/package/dsh-compact-panel-nav)。
+
+- **走 npm（不用 clone）**：`install_bundle` 的 target 直接写包名 `dsh-compact-panel-nav`。
+- **走本仓库（这里验证过的方式）**：clone 到固定位置后，target 写该目录的绝对路径；profile 是通过 link 引用它的，别删目录。
+
+装完即时生效，不生效就刷新一次页面。
 
 ## Compatibility and known limits / 兼容性与已知限制
 
