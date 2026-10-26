@@ -83,13 +83,13 @@ plugin_manager  action=install_bundle  target=dsh-compact-panel-nav
 
 ## Compatibility and known limits / 兼容性与已知限制
 
-- Verified on DeepSeek Harness **0.2.1-rc.3** (Desktop, macOS), Chinese UI.
+- Verified on DeepSeek Harness **0.2.1-rc.3** (Desktop, macOS), Chinese UI. `package.json` declares `engines.dsh` as `>=0.2.1-rc.3 <0.3.0`, which the host checks before loading.
 - Depends on the accessible name of the panel nav (`全局面板` / `Global panels`). A future release that renames that label, or a third UI language, makes the plugin a no-op instead of breaking the layout.
 - The New Session move expects the macOS brand strip: a drag strip above the button that holds no button of its own. Where the brand row is itself a button (the Windows/Linux layout), that check fails on purpose and only the one-row navigation applies.
 - Cells are equal thirds, so on a very narrow sidebar a long label (e.g. 自动化任务) ellipsizes. Widen the sidebar to see it in full.
 - Values use theme tokens (`--dsw-radius-*`, `--dsw-alias-*`), so light and dark themes both follow the host.
 
-- 在 DeepSeek Harness **0.2.1-rc.3**（桌面端 / macOS、中文界面）上验证。
+- 在 DeepSeek Harness **0.2.1-rc.3**（桌面端 / macOS、中文界面）上验证；`package.json` 的 `engines.dsh` 写的是 `>=0.2.1-rc.3 <0.3.0`，宿主会在装载前校验。
 - 依赖导航容器的无障碍名称；将来改文案或换成第三种语言时，插件会「不生效」而不是把布局弄坏。
 - 「新会话进品牌行」依赖 macOS 的品牌条形态（按钮上方是一条自身不含 button 的拖拽条）。Windows/Linux 的品牌行本身是按钮，该项校验会按设计失败 —— 那里只生效「一行导航」。
 - 三等分单元格：侧边栏很窄时较长文案（如「自动化任务」）会省略；拉宽即可完整显示。
@@ -103,11 +103,13 @@ Disable or remove the bundle from the plugin list. The stylesheet is removed wit
 
 ## Version history / 版本
 
+- **1.3.3** — Declares `engines.dsh` (`>=0.2.1-rc.3 <0.3.0`) so the host checks the runtime before loading the plugin. Manifest only; `client.js` unchanged.
 - **1.3.2** — Docs only: npm badge, the `dsh plugin … add` install command, and [`docs/hub-submission.md`](docs/hub-submission.md) for the DSH Plugin Hub listing. No runtime change.
 - **1.3.1** — New Session is now an icon-only control in the brand row. 1.3.0 placed it there but left the inline `⌘N` hint visible, which competed with the icon inside 28px and clipped both; 1.3.1 hides that hint (the tooltip still lists the keys) and makes the icon container fill the button.
 - **1.2.0** — Reverted an experiment that moved New Session by padding the brand row from a measurement; the padding squeezed the brand identity to zero width. Back to CSS-only for the navigation, plus a one-time cleanup of that experiment's leftovers.
 - **1.0.0** — First release: the three panel rows become one row.
 
+- **1.3.3** — 声明 `engines.dsh`（`>=0.2.1-rc.3 <0.3.0`），宿主会在装载前校验运行时版本。仅清单改动，`client.js` 不变。
 - **1.3.2** — 仅文档：npm 徽章、`dsh plugin … add` 安装命令，以及给 DSH Plugin Hub 用的 [`docs/hub-submission.md`](docs/hub-submission.md)。运行时无改动。
 - **1.3.1** — 「新会话」收成品牌行里的纯图标控件。1.3.0 已经放到位，但没隐藏 inline `⌘N` 提示：它和图标一起挤 28px，两者都被裁掉；1.3.1 隐藏该提示（tooltip 仍列快捷键），并让图标容器铺满按钮。
 - **1.2.0** — 撤回「按测量给品牌行加 padding」的那版实验（那次把品牌标识挤成 0 宽）。导航回到纯 CSS，并附带一次性清理残留。

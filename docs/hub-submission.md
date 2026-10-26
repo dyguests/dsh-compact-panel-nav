@@ -1,16 +1,22 @@
-# DSH Plugin Hub 提交材料
+# DSH Plugin Hub 提交资料
 
-目标目录：[dsh-plugin.org](https://dsh-plugin.org)（DSH Plugin Hub，人工审核）。提交入口：<https://dsh-plugin.org/zh/submit>，也可在 [dsh-plugin-hub](https://github.com/dshplugin/dsh-plugin-hub/issues/new) 提 issue。
+提交位置：<https://github.com/dshplugin/dsh-plugin-hub/issues/new>（格式参照 [issue #448](https://github.com/dshplugin/dsh-plugin-hub/issues/448) `/ dsh-sketch`）
 
-下面第一节是**可直接复制粘贴的提交正文**（`###` 小标题与 Hub 的表单模板一致）；第二节是它的自查结果；第三节是给维护者看的英文摘要。提交前只需确认版本号与链接仍是最新的。
+下面「标题」与「正文」两段可直接复制。提交前确认版本号与链接仍是最新的即可。
 
 ---
 
-## 1. 提交正文（复制这一段）
+## 标题（复制这一行）
+
+```
+[插件提交] dyguests/dsh-compact-panel-nav — 侧边栏三行导航压成一行，「新会话」收进品牌行
+```
+
+## 正文（复制这一段）
 
 ### 仓库地址
 
-https://github.com/dyguests/dsh-compact-panel-nav
+<https://github.com/dyguests/dsh-compact-panel-nav>
 
 ### 一句话价值
 
@@ -28,9 +34,9 @@ dsh plugin --profile web add dsh-compact-panel-nav
 
 ### 兼容与运行要求
 
-- DSH 0.2.1-rc.3（桌面端 / macOS，中文界面）验证通过。
-- Windows / Linux：只生效「导航行合并」；把「新会话」放进品牌行那一步按设计跳过（那里的品牌行本身是按钮）。
-- 纯浏览器端实现：一段样式表 + 一次元素几何测量。不申请权限、不访问网络、不依赖宿主服务或外部接口。
+dsh >= 0.2.1-rc.3（package.json 里 `engines.dsh` 为 `>=0.2.1-rc.3 <0.3.0`），已在 0.2.1-rc.3 实测装载与使用。
+macOS 桌面端全部生效；Windows / Linux 只生效「导航行合并」，把「新会话」放进品牌行那一步按设计跳过（那里的品牌行本身是按钮）。
+纯前端插件，不依赖外部服务或 API key，不申请权限。
 
 ### 许可证
 
@@ -38,41 +44,43 @@ MIT
 
 ### 截图 / 演示
 
-- 仓库内：`assets/sidebar-nav.webp`
-- 直链：<https://raw.githubusercontent.com/dyguests/dsh-compact-panel-nav/main/assets/sidebar-nav.webp>
+- 效果（品牌行右侧 ⊕ 新会话 + 一行导航）：https://github.com/dyguests/dsh-compact-panel-nav/blob/main/assets/sidebar-nav.webp
 
 ### 补充说明
 
-纯客户端 UI 插件：无权限申请、无外部服务、无遥测。
+- 纯客户端交付：一段样式表，外加对「新会话」按钮做一次几何测量；不注册宿主端点、不开 HTTP 路由、不需要额外权限。
+- 导航行的选择器只认侧边栏自己的 `panels.label` 无障碍名称（中文「全局面板」/ 英文「Global panels」），再用 `:has()` 判断是否展开态 —— 收起成 56px 窄栏时完全不动。
+- 「新会话」不搬家：按钮仍在原位置，只是改成绝对定位、几何值内联；四条结构校验（展开态 / 是导航前一个兄弟 / 上方是不含 button 的拖拽条 / 按钮内有图标）任一失败就原样保留，收起侧边栏或停用插件会还原内联样式。
+- 已知限制：依赖上述无障碍名称（上游改文案或使用第三种语言时插件自动不生效，而不是把布局弄坏）；导航三格等宽，侧边栏很窄时较长文案（如「自动化任务」）会省略。
+- 1.1.0 曾用「测量宽度 + 给品牌行加 padding」实现同一效果，结果把品牌行挤成 0 宽；1.2.0 已撤回并加了清理逻辑，相关经过写在 README 的版本记录里。
 
-已知限制：
+### 提交前自查
 
-1. 依赖侧边栏导航容器的无障碍名称（中文「全局面板」/ 英文「Global panels」）。上游改文案或使用第三种语言时，插件会自动不生效，而不是把布局弄坏。
-2. 导航三格等宽，侧边栏很窄时较长文案（如「自动化任务」）会省略；拉宽侧边栏即完整显示。
-3. 收起成 56px 窄栏时不做任何改动：导航保持竖排图标，「新会话」回到原位。
+- [x] 仓库已公开
+- [x] 已添加 GitHub topic：dsh-plugin
+- [x] README 包含安装命令
+- [x] 插件导出 apply(ctx) 模块
+- [x] 仓库根目录包含 package.json
 
 ---
 
-## 2. 提交前自查（对照 Hub 的要求）
+## 提交后
 
-- [x] 仓库已公开
-- [x] 已添加 GitHub topic：`dsh-plugin`（另外还有 `dsh`、`deepseek-harness`、`deepseek`、`plugin`、`sidebar`、`ui`）
-- [x] README 包含安装命令（`dsh plugin --profile web add dsh-compact-panel-nav`）
-- [x] 插件导出 `apply(ctx)` —— Host 侧 `index.js`，浏览器侧 `client.js` 注册同一个 `apply`
-- [x] 仓库根目录包含 `package.json`
-- [x] 已发布 npm 包：`dsh-compact-panel-nav`（最新 1.3.2）
+- 审核是人工的，一般在 1–2 天内；有需要补充的会直接在 issue 里问。
+- 收录后会自动生成条目并定期刷新，无需再手动同步。
+- 若审核同学要看英文说明，可直接引用下面这段。
 
-## 3. English summary (for maintainers)
+## English summary (for reviewers)
 
 A browser-side DeepSeek Harness plugin for the sidebar. It folds the **Plugins / Automations / More** rows into a single 32px row and turns the full-width **New Session** button into a 28×28 icon at the right end of the brand row, returning roughly 130px to the workspace list.
 
-Implementation is CSS-first: the navigation rules key off the nav landmark's accessible name plus a `:has()` guard for the expanded state (the collapsed 56px rail is untouched). The New Session control is the shipped button switched to `position: absolute` with inline geometry, guarded by four structural checks, and released on collapse or disable. No permissions, no network requests, no host service.
+CSS-first: the navigation rules key off the nav landmark's accessible name plus a `:has()` guard for the expanded state, so the collapsed 56px rail is untouched. The New Session control is the shipped button switched to `position: absolute` with inline geometry, guarded by four structural checks and released on collapse or disable. No permissions, no network requests, no host service.
 
-Verified on DSH 0.2.1-rc.3 (Desktop, macOS). On Windows/Linux only the row merge applies. MIT.
+`engines.dsh` is `>=0.2.1-rc.3 <0.3.0`; verified on 0.2.1-rc.3 Desktop (macOS). On Windows/Linux only the row merge applies. MIT.
 
-## 4. Links
+## Links
 
 - Repository: <https://github.com/dyguests/dsh-compact-panel-nav>
 - npm: <https://www.npmjs.com/package/dsh-compact-panel-nav>
-- Release: <https://github.com/dyguests/dsh-compact-panel-nav/releases>
-- Screenshot: <https://raw.githubusercontent.com/dyguests/dsh-compact-panel-nav/main/assets/sidebar-nav.webp>
+- Releases: <https://github.com/dyguests/dsh-compact-panel-nav/releases>
+- Screenshot: <https://github.com/dyguests/dsh-compact-panel-nav/blob/main/assets/sidebar-nav.webp>
