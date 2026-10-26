@@ -1,8 +1,8 @@
 {
   "name": "dsh-compact-panel-nav",
-  "version": "1.2.0",
+  "version": "1.3.1",
   "type": "module",
-  "description": "Puts the sidebar's Plugins / Automations / More entries on one compact row.",
+  "description": "Puts the sidebar's Plugins / Automations / More entries on one compact row, and New Session in the brand row as an icon.",
   "keywords": ["dsh", "deepseek-harness", "plugin", "client-plugin", "sidebar", "ui"],
   "license": "MIT",
   "repository": {

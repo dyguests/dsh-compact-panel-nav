@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "Compact Sidebar Nav",
-    "description": "Puts the sidebar's Plugins, Automations, and More entries on one compact row instead of three stacked rows."
+    "description": "Puts Plugins, Automations, and More on one compact row, and New Session at the right of the brand row as an icon."
   }
 }
