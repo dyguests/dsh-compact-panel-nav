@@ -1,0 +1,32 @@
+.gitignore
+  h_3553f4e32d4a9f 1-3
+LICENSE
+  h_3553f4e32d4a9f 1-21
+README.md
+  h_3553f4e32d4a9f 1-73
+client.js
+  h_3553f4e32d4a9f 1-91
+cordis.patch.yml
+  h_3553f4e32d4a9f 1-3
+icon.svg
+  h_3553f4e32d4a9f 1-6
+index.js
+  h_3553f4e32d4a9f 1-2
+locale/en.json
+  h_3553f4e32d4a9f 1-6
+locale/zh.json
+  h_3553f4e32d4a9f 1-6
+package.json
+  h_3553f4e32d4a9f 1-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "66e3aa45b62bfa457a59a76129cb2a0937720730",
+  "prompts": {},
+  "humans": {
+    "h_3553f4e32d4a9f": {
+      "author": "fanhl <dyguests@qq.com>"
+    }
+  }
+}
