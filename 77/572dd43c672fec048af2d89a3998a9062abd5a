@@ -1,0 +1,16 @@
+.gitignore
+  h_3553f4e32d4a9f 4
+package.json
+  h_3553f4e32d4a9f 6-17,24-27,34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "77572dd43c672fec048af2d89a3998a9062abd5a",
+  "prompts": {},
+  "humans": {
+    "h_3553f4e32d4a9f": {
+      "author": "fanhl <dyguests@qq.com>"
+    }
+  }
+}
