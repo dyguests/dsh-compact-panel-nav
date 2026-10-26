@@ -36,9 +36,15 @@ This is a profile bundle: a package whose `package.json` declares `dsh.bundle.pa
    git clone https://github.com/dyguests/dsh-compact-panel-nav.git
    ```
 
-2. Install the bundle into the current Harness profile, e.g. through the Harness agent's plugin manager with the absolute path as the install target, or from **Settings → Plugins** in the Web UI.
+2. Install the bundle into the current Harness profile. Ask the Harness agent to install this directory as a bundle — the plugin manager call is `install_bundle` with the cloned directory as its target:
 
-3. The row applies immediately; if the sidebar does not change, reload the page once (`Cmd+R`).
+   ```
+   plugin_manager  action=install_bundle  target=/absolute/path/to/dsh-compact-panel-nav
+   ```
+
+   It installs the package, selects the bundle in the profile and activates it; the profile then references the directory by link.
+
+3. Check **Settings → Plugins** for the bundle — title *Compact Sidebar Nav* / 侧边栏导航压缩. The row applies immediately; if the sidebar does not change, reload the page once (`Cmd+R`).
 
 这是一个 profile bundle（`package.json` 里声明 `dsh.bundle.patch`，浏览器侧由 `./client` 模块提供）。clone 到固定位置后用插件管理器以「目录」形式安装即可；profile 是通过 link 引用这个目录的，别删它。装完即时生效，不生效就刷新一次页面。
 
