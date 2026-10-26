@@ -1,0 +1,28 @@
+{
+  "name": "dsh-compact-panel-nav",
+  "version": "1.2.0",
+  "type": "module",
+  "description": "Puts the sidebar's Plugins / Automations / More entries on one compact row.",
+  "keywords": ["dsh", "deepseek-harness", "plugin", "client-plugin", "sidebar", "ui"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dyguests/dsh-compact-panel-nav.git"
+  },
+  "homepage": "https://github.com/dyguests/dsh-compact-panel-nav#readme",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": ["index.js", "client.js", "cordis.patch.yml", "locale/*.json", "icon.svg"],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": ["@deepseek-ai/dsh-client-ui-sidebar"]
+    }
+  }
+}
