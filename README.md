@@ -44,7 +44,13 @@ The icon-only look — hiding the label and the inline `⌘N` hint, plus the hov
 
 This is a profile bundle: a package whose `package.json` declares `dsh.bundle.patch`, with a `./client` module for the browser half. It is published on npm as [`dsh-compact-panel-nav`](https://www.npmjs.com/package/dsh-compact-panel-nav), so there are two routes.
 
-**From npm (no clone).** Install the published package into the current Harness profile — the plugin manager's target is the npm spec:
+**From npm (no clone).** Install the published package into the profile, then make sure it is enabled in **Settings → Plugins**:
+
+```bash
+dsh plugin --profile web add dsh-compact-panel-nav
+```
+
+The same step through the Harness agent does install and bundle selection in one call:
 
 ```
 plugin_manager  action=install_bundle  target=dsh-compact-panel-nav
@@ -70,8 +76,8 @@ plugin_manager  action=install_bundle  target=dsh-compact-panel-nav
 
 这是一个 profile bundle（`package.json` 里声明 `dsh.bundle.patch`，浏览器侧由 `./client` 模块提供），已发布到 npm：[`dsh-compact-panel-nav`](https://www.npmjs.com/package/dsh-compact-panel-nav)。
 
-- **走 npm（不用 clone）**：`install_bundle` 的 target 直接写包名 `dsh-compact-panel-nav`。
-- **走本仓库（这里验证过的方式）**：clone 到固定位置后，target 写该目录的绝对路径；profile 是通过 link 引用它的，别删目录。
+- **走 npm（不用 clone）**：`dsh plugin --profile web add dsh-compact-panel-nav`，装完在「设置 → 插件」里确认启用；或者让 agent 调 `install_bundle`，target 直接写包名，一步完成安装 + 启用。
+- **走本仓库（这里验证过的方式）**：clone 到固定位置后，`install_bundle` 的 target 写该目录的绝对路径；profile 是通过 link 引用它的，别删目录。
 
 装完即时生效，不生效就刷新一次页面。
 
@@ -97,10 +103,12 @@ Disable or remove the bundle from the plugin list. The stylesheet is removed wit
 
 ## Version history / 版本
 
+- **1.3.2** — Docs only: npm badge, the `dsh plugin … add` install command, and [`docs/hub-submission.md`](docs/hub-submission.md) for the DSH Plugin Hub listing. No runtime change.
 - **1.3.1** — New Session is now an icon-only control in the brand row. 1.3.0 placed it there but left the inline `⌘N` hint visible, which competed with the icon inside 28px and clipped both; 1.3.1 hides that hint (the tooltip still lists the keys) and makes the icon container fill the button.
 - **1.2.0** — Reverted an experiment that moved New Session by padding the brand row from a measurement; the padding squeezed the brand identity to zero width. Back to CSS-only for the navigation, plus a one-time cleanup of that experiment's leftovers.
 - **1.0.0** — First release: the three panel rows become one row.
 
+- **1.3.2** — 仅文档：npm 徽章、`dsh plugin … add` 安装命令，以及给 DSH Plugin Hub 用的 [`docs/hub-submission.md`](docs/hub-submission.md)。运行时无改动。
 - **1.3.1** — 「新会话」收成品牌行里的纯图标控件。1.3.0 已经放到位，但没隐藏 inline `⌘N` 提示：它和图标一起挤 28px，两者都被裁掉；1.3.1 隐藏该提示（tooltip 仍列快捷键），并让图标容器铺满按钮。
 - **1.2.0** — 撤回「按测量给品牌行加 padding」的那版实验（那次把品牌标识挤成 0 宽）。导航回到纯 CSS，并附带一次性清理残留。
 - **1.0.0** — 首个版本：三行合并为一行。
