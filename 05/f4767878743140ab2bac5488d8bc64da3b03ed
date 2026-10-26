@@ -1,0 +1,18 @@
+README.md
+  h_3553f4e32d4a9f 47-53,79-80,106,111
+docs/hub-submission.md
+  h_3553f4e32d4a9f 1-78
+package.json
+  h_3553f4e32d4a9f 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "05f4767878743140ab2bac5488d8bc64da3b03ed",
+  "prompts": {},
+  "humans": {
+    "h_3553f4e32d4a9f": {
+      "author": "fanhl <dyguests@qq.com>"
+    }
+  }
+}
