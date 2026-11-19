@@ -1,0 +1,19 @@
+client.js
+  h_3553f4e32d4a9f 14-32,35-41,57-59,74-77,79,85-87,92,94,111,130-169,193,195-197,212-215,220-221,223-226,254,258,262,264,268-271,284,328-330
+  h_3553f4e32d4a9f 194,198-205,207-210,245-252,263
+README.md
+  h_3553f4e32d4a9f 27,29,31,35,37,39,86-87,91,94-95,99,110,117
+package.json
+  h_3553f4e32d4a9f 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "cac802f6759e1bb48d8e93a3029cb8db6a0c8c3e",
+  "prompts": {},
+  "humans": {
+    "h_3553f4e32d4a9f": {
+      "author": "fanhl <dyguests@qq.com>"
+    }
+  }
+}
