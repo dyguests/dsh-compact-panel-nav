@@ -121,6 +121,11 @@ Disable or remove the bundle from the plugin list. The stylesheet is removed wit
 - **1.2.0** — 撤回「按测量给品牌行加 padding」的那版实验（那次把品牌标识挤成 0 宽）。导航回到纯 CSS，并附带一次性清理残留。
 - **1.0.0** — 首个版本：三行合并为一行。
 
+## Contributors / 贡献者
+
+- [@dyguests](https://github.com/dyguests) — maintainer / 维护者
+- [@zhongxu336](https://github.com/zhongxu336) — co-author / 共同作者
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
