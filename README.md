@@ -24,19 +24,19 @@ A DeepSeek Harness Web UI plugin that compacts the top of the sidebar: **Plugins
 
 ## How it works / 实现方式
 
-**Navigation — CSS only.** The rules target the navigation landmark by its accessible name, which the sidebar derives from its own `panels.label` dictionary (`全局面板` in the shipped Chinese locale, `Global panels` in English). A `:has()` guard requires an icon + title pair inside a row, which only the expanded sidebar renders, so the collapsed rail keeps its original layout.
+**Navigation — CSS only.** The rules target the navigation landmark by its accessible name, which the sidebar derives from its own `panels.label` dictionary (`全局面板` in the shipped Chinese locale, `Global panels` in English). A `:has()` guard requires an icon + title pair inside a row, which only the expanded sidebar renders, so the collapsed rail keeps its original layout. Row buttons are matched by the glyph `span` they carry, so the styling reaches the panel entries and the More launcher but never the 28px unpin control.
 
-**New Session — no reparenting.** The button stays where React put it; the script only switches that one element to `position: absolute`, measures the brand strip once against the button's own parent, and writes the geometry (28×28, vertically centered, right-aligned) inline. Nothing is written onto the brand row or any other node, so a measurement can never squeeze the brand identity.
+**New Session — no reparenting.** The button stays where React put it; the script only switches that one element to `position: absolute`, measures the brand strip once against the column that owns it, and writes the geometry (28×28, vertically centered, right-aligned) inline. Nothing is written onto the brand row or any other node, so a measurement can never squeeze the brand identity.
 
-Every precondition is checked before anything is touched: expanded sidebar, the button is the sibling immediately before the nav, the strip above it is a `div` that holds no button of its own (that rejects the macOS window-control strip), and the button contains an icon. If any check fails, the button is left exactly as shipped. Collapsing the sidebar or disabling the plugin restores the saved inline style text.
+Every precondition is checked before anything is touched: expanded sidebar, the control sits in a row of its own above the nav, the strip above that row is a `div` that holds no button of its own (that rejects the macOS window-control strip), and the button contains an icon. If any check fails, the button is left exactly as shipped. Collapsing the sidebar or disabling the plugin restores the saved inline style text.
 
 The icon-only look — hiding the label and the inline `⌘N` hint, plus the hover background in theme tokens — is scoped to a data attribute the script sets, so it can never style an unrelated element.
 
-**导航行 —— 纯 CSS。** 选择器只认导航容器的无障碍名称（侧边栏自己的 `panels.label`：中文「全局面板」、英文「Global panels」），再用 `:has()` 判断行内是否出现「图标 + 标题」——只有展开态成立，因此收起态保持原样。
+**导航行 —— 纯 CSS。** 选择器只认导航容器的无障碍名称（侧边栏自己的 `panels.label`：中文「全局面板」、英文「Global panels」），再用 `:has()` 判断行内是否出现「图标 + 标题」——只有展开态成立，因此收起态保持原样。行按钮按「自带图标 span」匹配，只命中三个面板入口与 More，不会误伤 28px 的取消固定按钮。
 
-**新会话 —— 不搬家。** 按钮仍在 React 放的位置，脚本只把这一个元素改成 `position: absolute`，以**它自己的父元素**为基准量一次品牌行，把几何值（28×28、垂直居中、右对齐）写成内联样式。品牌行与其它任何节点的内联样式一个都不碰，所以「量错就把品牌挤没」那种事故在结构上不可能发生。
+**新会话 —— 不搬家。** 按钮仍在 React 放的位置，脚本只把这一个元素改成 `position: absolute`，以**拥有它的那一列**为基准量一次品牌行，把几何值（28×28、垂直居中、右对齐）写成内联样式。品牌行与其它任何节点的内联样式一个都不碰，所以「量错就把品牌挤没」那种事故在结构上不可能发生。
 
-动手前逐条校验：必须展开态、按钮必须是导航前一个兄弟、它上面那条必须是「自身不含 button」的 div（用来排除 macOS 窗口控制条）、按钮里必须有图标。任一条不成立就原样保留。收起侧边栏或停用插件时，恢复此前保存的 `cssText`。
+动手前逐条校验：必须展开态、按钮必须独占导航上方的一行、那一行上面必须是「自身不含 button」的 div（用来排除 macOS 窗口控制条）、按钮里必须有图标。任一条不成立就原样保留。收起侧边栏或停用插件时，恢复此前保存的 `cssText`。
 
 「只留图标」这件事（隐藏文字与 inline `⌘N`、hover 底色、主题变量配色）都挂在脚本自己写的 data 属性上，不会误伤别的元素。
 
@@ -83,16 +83,20 @@ plugin_manager  action=install_bundle  target=dsh-compact-panel-nav
 
 ## Compatibility and known limits / 兼容性与已知限制
 
-- Verified on DeepSeek Harness **0.2.1-rc.3** (Desktop, macOS), Chinese UI. `package.json` declares `engines.dsh` as `>=0.2.1-rc.3 <0.3.0`, which the host checks before loading.
+- Verified on DeepSeek Harness **0.2.2-rc.5** (Desktop, macOS), Chinese UI; the flat 0.2.1 column is still accepted. `package.json` declares `engines.dsh` as `>=0.2.1-rc.3 <0.3.0`, which the host checks before loading.
+- 0.2.2 wrapped every panel row in an entry `div` and moved New Session into its own row above the scroll region. 1.3.x targeted the pre-0.2.2 column, so it silently matched nothing there; 1.4.0 follows both shapes.
 - Depends on the accessible name of the panel nav (`全局面板` / `Global panels`). A future release that renames that label, or a third UI language, makes the plugin a no-op instead of breaking the layout.
 - The New Session move expects the macOS brand strip: a drag strip above the button that holds no button of its own. Where the brand row is itself a button (the Windows/Linux layout), that check fails on purpose and only the one-row navigation applies.
 - Cells are equal thirds, so on a very narrow sidebar a long label (e.g. 自动化任务) ellipsizes. Widen the sidebar to see it in full.
+- The compact row does not render the per-entry unpin control: a third of the sidebar cannot hold both the label and a 28px control.
 - Values use theme tokens (`--dsw-radius-*`, `--dsw-alias-*`), so light and dark themes both follow the host.
 
-- 在 DeepSeek Harness **0.2.1-rc.3**（桌面端 / macOS、中文界面）上验证；`package.json` 的 `engines.dsh` 写的是 `>=0.2.1-rc.3 <0.3.0`，宿主会在装载前校验。
+- 在 DeepSeek Harness **0.2.2-rc.5**（桌面端 / macOS、中文界面）上验证，同时仍接受 0.2.1 的扁平结构；`package.json` 的 `engines.dsh` 写的是 `>=0.2.1-rc.3 <0.3.0`，宿主会在装载前校验。
+- 0.2.2 把每个面板行包进了 entry `div`，并把「新会话」放进滚动区上方单独一行。1.3.x 只认 0.2.2 之前的列结构，因此在那里选择器一个都命中不了；1.4.0 两种结构都认。
 - 依赖导航容器的无障碍名称；将来改文案或换成第三种语言时，插件会「不生效」而不是把布局弄坏。
 - 「新会话进品牌行」依赖 macOS 的品牌条形态（按钮上方是一条自身不含 button 的拖拽条）。Windows/Linux 的品牌行本身是按钮，该项校验会按设计失败 —— 那里只生效「一行导航」。
 - 三等分单元格：侧边栏很窄时较长文案（如「自动化任务」）会省略；拉宽即可完整显示。
+- 一行布局不渲染每个入口的「取消固定」按钮：三分之一宽的格子放不下文案 + 28px 控件。
 - 配色走主题变量，深/浅色模式都跟随宿主。
 
 ## Uninstall / 卸载
@@ -103,12 +107,14 @@ Disable or remove the bundle from the plugin list. The stylesheet is removed wit
 
 ## Version history / 版本
 
+- **1.4.0** — Follows the 0.2.2 sidebar: panel rows are now wrapped in entry `div`s, and New Session sits in its own row above the scroll region instead of directly before the nav. Both selectors and the placement walk were updated, with the 0.2.1 flat column kept as a fallback. 1.3.x was a silent no-op on 0.2.2.
 - **1.3.3** — Declares `engines.dsh` (`>=0.2.1-rc.3 <0.3.0`) so the host checks the runtime before loading the plugin. Manifest only; `client.js` unchanged.
 - **1.3.2** — Docs only: npm badge, the `dsh plugin … add` install command, and [`docs/hub-submission.md`](docs/hub-submission.md) for the DSH Plugin Hub listing. No runtime change.
 - **1.3.1** — New Session is now an icon-only control in the brand row. 1.3.0 placed it there but left the inline `⌘N` hint visible, which competed with the icon inside 28px and clipped both; 1.3.1 hides that hint (the tooltip still lists the keys) and makes the icon container fill the button.
 - **1.2.0** — Reverted an experiment that moved New Session by padding the brand row from a measurement; the padding squeezed the brand identity to zero width. Back to CSS-only for the navigation, plus a one-time cleanup of that experiment's leftovers.
 - **1.0.0** — First release: the three panel rows become one row.
 
+- **1.4.0** — 适配 0.2.2 的侧栏结构：面板行外面多了 entry `div`，「新会话」也不再是导航的前一个兄弟，而是滚动区上方的独立一行。选择器与定位回溯都改了，同时保留 0.2.1 的扁平结构作为兜底。1.3.x 在 0.2.2 上是静默失效。
 - **1.3.3** — 声明 `engines.dsh`（`>=0.2.1-rc.3 <0.3.0`），宿主会在装载前校验运行时版本。仅清单改动，`client.js` 不变。
 - **1.3.2** — 仅文档：npm 徽章、`dsh plugin … add` 安装命令，以及给 DSH Plugin Hub 用的 [`docs/hub-submission.md`](docs/hub-submission.md)。运行时无改动。
 - **1.3.1** — 「新会话」收成品牌行里的纯图标控件。1.3.0 已经放到位，但没隐藏 inline `⌘N` 提示：它和图标一起挤 28px，两者都被裁掉；1.3.1 隐藏该提示（tooltip 仍列快捷键），并让图标容器铺满按钮。
